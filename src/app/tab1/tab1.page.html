@@ -1,16 +1,58 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>Perfil del Cliente</ion-title>
+    <ion-title>Mi perfil </ion-title>
   </ion-toolbar>
 </ion-header>
 
+<ion-content>
+  <h2>Información del Cliente</h2>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 1</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <ion-card *ngIf="cliente">
+    <ion-card-header>
+      <ion-card-title>{{ cliente.nombre || 'No disponible' }}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <p><strong>DNI:</strong> {{ cliente.dni || 'No disponible' }}</p>
+      <p><strong>Dirección:</strong> {{ cliente.direccion || 'No disponible' }}</p>
+      <p><strong>Teléfono:</strong> {{ cliente.telefono || 'No disponible' }}</p>
+    </ion-card-content>
+  </ion-card>
 
-  <app-explore-container name="Tab 1 page"></app-explore-container>
-</ion-content>
+  <!-- Sección de Facturas -->
+  <h3>Facturas</h3>
+  <p *ngIf="facturas?.length === 0">No hay facturas disponibles.</p>
+  <ion-list *ngIf="facturas.length > 0">
+    <ion-item *ngFor="let factura of facturas" (click)="verFactura(factura)">
+      <ion-label>
+        <p><strong>ID Factura:</strong> {{ factura.id }}</p>
+        <p><strong>Fecha:</strong> {{ factura.fecha | date }}</p>
+        <p><strong>Estado:</strong> 
+          <ion-badge color="{{ factura.esPagada ? 'success' : (factura.esAnulada ? 'danger' : 'warning') }}">
+            {{ factura.esPagada ? 'Pagada' : (factura.esAnulada ? 'Anulada' : 'Pendiente') }}
+          </ion-badge>
+        </p>
+        <p><strong>Total:</strong> {{ factura.dameTotal | currency }}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+<!-- Sección de Reservas -->
+<h3>Reservas</h3>
+<p *ngIf="reservas?.length === 0">No hay reservas disponibles.</p>
+<ion-list *ngIf="reservas?.length && reservas.length > 0"> 
+  <ion-item *ngFor="let reserva of reservas">
+    <ion-label>
+      <p><strong>ID:</strong> {{ reserva.id }}</p>
+      <p><strong>Inicio:</strong> {{ reserva.inicio | date }}</p>
+      <p><strong>Final:</strong> {{ reserva.final | date }}</p>
+      
+      <!-- Información del coche asociado -->
+      <p><strong>Coche asociado:</strong></p>
+      <ul>
+        <li><strong>Número de licencia:</strong> {{ reserva.coches?.numLicencia || 'No disponible' }}</li>
+        <li><strong>Categoría:</strong> {{ reserva.coches?.categoria || 'No disponible' }}</li>
+        <li><strong>Estado:</strong> {{ reserva.coches?.estado || 'No disponible' }}</li>
+      </ul>
+    </ion-label>
+  </ion-item>
+</ion-list>

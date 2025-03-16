@@ -53,7 +53,7 @@ export class LoginPage implements OnInit {
                   this.cliente = cliente; 
                   this.storage.set('cliente', this.cliente);
                   console.log(this.cliente);
-                  this.router.navigate(["tabs"]);
+                  this.router.navigate(["tabs"]); 
                 }
               );
           },

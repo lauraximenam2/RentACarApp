@@ -1,80 +1,65 @@
 import { Injectable } from '@angular/core';
-import {Observable, of, throwError} from 'rxjs';
-import {HttpClient, HttpHeaders, HttpResponse} from '@angular/common/http';
-import {catchError} from 'rxjs/operators';
-import { Storage } from '@ionic/storage-angular'
+import { Observable, throwError } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { catchError } from 'rxjs/operators';
+import { Storage } from '@ionic/storage-angular';
+import { Cliente, Factura, Reserva, Coche, Coches } from './cliente.model';
 
-import {Cliente} from './cliente.model';
-
-const httpOptions = {
-    headers: new HttpHeaders({
-      'Content-Type':  'application/json',
-      'Access-Control-Allow-Origin' : 'http://localhost:8100'
-    })
-  };
-
-  const httpOptionsLogin = {
-    headers: new HttpHeaders({'Content-Type':  'application/json'}) 
-    //observe: 'response'
-  };
-
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 
 export class ClienteService {
+  private readonly HS_API_URL = 'https://localhost:5001/api';
+  private token: string = '';
+  private headers = new HttpHeaders();
 
+  constructor(private http: HttpClient, private storage: Storage) {}
 
-  private readonly HS_API_URL = 'https://localhost:44358/api';
-  private token : string = "";
-  private headers = new HttpHeaders;
-
-
-  constructor(private http: HttpClient,
-    private storage: Storage) {
-      
-
-  }
-
-  public RecuperarToken (){
-    
-    var promise = this.storage.get('token').then (token => {
-      this.token = token;
-      this.headers = new HttpHeaders ({'Authorization': this.token});
+  // Obtener el token de almacenamiento
+  public async RecuperarToken() {
+    this.token = await this.storage.get('token');
+    this.headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.token}`,
+      'Content-Type': 'application/json'
     });
-    return promise;
   }
 
-
-
+  // Iniciar sesión
   public login(dni: string, password: string): Observable<any> {
- 
-    let cli:Cliente = {DNI: dni, Pass: password};
-   
-     return this.http.post(`${this.HS_API_URL}/Cliente_anonimo/Login`, cli, {responseType:'text'})
-    .pipe(
+    let cli: Cliente = { dni: dni, pass: password };
+
+    return this.http.post(`${this.HS_API_URL}/Cliente_anonimo/Login`, cli, { responseType: 'text' })
+      .pipe(
         catchError((err) => {
-          console.log("Error en el login");
+          console.log('Error en el login');
           console.error(err);
           return throwError(err);
-        }
-        )
+        })
       );
   }
 
-  public getClientePorDNI(token:string): Observable<Cliente>{
-
-       this.headers = new HttpHeaders ({'Authorization': token});
-       return this.http.get<Cliente>(`${this.HS_API_URL}/ClienteRegistrado`, {headers:this.headers});   
-   }
-
-   public getReservasCliente(dni:string): Observable<any>{
-
-    return this.http.get<any>(`${this.HS_API_URL}/Reserva/DameReservas?idClienteRegistrado${dni}`, {headers:this.headers});   
+  // Obtenemos perfil del cliente
+  public getClientePorDNI(token: string): Observable<Cliente> {
+    this.headers = new HttpHeaders ({ 'Authorization': token });
+    return this.http.get<Cliente>(`${this.HS_API_URL}/ClienteRegistrado`, { headers: this.headers });
   }
 
-  public getFacturas(dni:string): Observable<any>{
 
-    return this.http.get<any>(`${this.HS_API_URL}/Factura/Factura_dameTotal`, {headers:this.headers});   
+  //Obtenemos facturas del cliente 
+  public getFacturasCliente(token: string,  dni: string): Observable<Factura[]> {
+    this.headers = new HttpHeaders ({ 'Authorization': token }); 
+    return this.http.get<Factura[]>(`${this.HS_API_URL}/Factura/ObtenerFacturasPorCliente?dni=${dni}`, { headers: this.headers });
   }
+
+    //Obtenemos facturas del cliente 
+    public getReservasCliente(token: string, idClienteRegistrado: string): Observable<Reserva[]> {
+      this.headers = new HttpHeaders ({ 'Authorization': token }); 
+      return this.http.get<Reserva[]>(`${this.HS_API_URL}/Reserva/DameReservas?idClienteRegistrado=${idClienteRegistrado}`, { headers: this.headers });
+    }
+
+}
+
+  //aqui se ponen lo métodos que se vinculan con la fachada REst
+
   
- }
-

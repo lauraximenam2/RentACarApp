@@ -65,7 +65,7 @@ export class ClienteService {
 }
 
 //Obtenemos Detalle de Reserva 
-public dameReserva(token: string, idReserva: number): Observable<Reserva> {
+public dameReserva(token: string, idReserva: string): Observable<Reserva> {
   this.headers = new HttpHeaders ({ 'Authorization': token }); 
   return this.http.get<Reserva>(`${this.HS_API_URL}/Reserva/DameReserva?idReserva=${idReserva}`, { headers: this.headers });
 }

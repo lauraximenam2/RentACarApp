@@ -22,11 +22,11 @@ export class Tab3Page implements OnInit {
     const reservaId = this.route.snapshot.paramMap.get('id');
     if (reservaId) {
       const token = await this.storage.get('token');  // Recupera el token
-      this.obtenerReserva(token, Number(reservaId));
+      this.obtenerReserva(token, reservaId);
     }
   }
 
-  obtenerReserva(token: string, reservaId: number) {
+  obtenerReserva(token: string, reservaId: string) {
     this.clienteService.dameReserva(token, reservaId).subscribe(
       (data) => {
         this.reserva = data;

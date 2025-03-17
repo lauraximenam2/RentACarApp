@@ -1,17 +1,22 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>
-      Tab 3
-    </ion-title>
+    <ion-title>Detalle de la Reserva</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 3</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <app-explore-container name="Tab 3 page"></app-explore-container>
+<ion-content>
+  <ion-card *ngIf="reserva">
+    <ion-card-header>
+      <ion-card-title>Reserva ID: {{ reserva.id }}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <p><strong>Fecha de inicio:</strong> {{ reserva.inicio | date }}</p>
+      <p><strong>Fecha de finalización:</strong> {{ reserva.final | date }}</p>
+      
+      <h3>Coche Reservado</h3>
+      <p><strong>Número de Licencia:</strong> {{ reserva.coches?.numLicencia || 'No disponible' }}</p>
+      <p><strong>Categoría:</strong> {{ reserva.coches?.categoria || 'No disponible' }}</p>
+      <p><strong>Estado:</strong> {{ reserva.coches?.estado || 'No disponible' }}</p>
+    </ion-card-content>
+  </ion-card>
 </ion-content>

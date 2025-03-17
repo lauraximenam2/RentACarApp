@@ -100,6 +100,8 @@ export class Tab1Page implements OnInit {
         this.reservas = [];
       }
     }
+
+  // Navegación a tab2 para ver los detalles de una factura
   verFactura(factura: Factura) {
     if (factura?.id) {
       this.router.navigate(['/tabs/tab2', factura.id]);
@@ -107,6 +109,9 @@ export class Tab1Page implements OnInit {
       console.warn("Factura no válida:", factura);
     }
   }
-}
 
-  
+  // Navegación a tab3 para ver los detalles de una reserva
+  verReserva(reservaId: number) {
+    this.router.navigate(['/tabs/tab3', reservaId.toString()]); // Convertimos el número a string
+  }
+}

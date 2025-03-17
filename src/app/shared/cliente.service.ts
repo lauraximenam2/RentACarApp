@@ -64,5 +64,12 @@ export class ClienteService {
     return this.http.get<Factura>(`${this.HS_API_URL}/Factura/ObtenerFacturaPorId?id=${facturaId}`, { headers: this.headers });
 }
 
+//Obtenemos Detalle de Reserva 
+public dameReserva(token: string, idReserva: number): Observable<Reserva> {
+  this.headers = new HttpHeaders ({ 'Authorization': token }); 
+  return this.http.get<Reserva>(`${this.HS_API_URL}/Reserva/DameReserva?idReserva=${idReserva}`, { headers: this.headers });
+}
+
+
   //aqui se ponen lo métodos que se vinculan con la fachada REst
 }

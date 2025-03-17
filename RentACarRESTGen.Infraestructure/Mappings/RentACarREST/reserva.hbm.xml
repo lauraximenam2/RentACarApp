@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" ?>
+		<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2"
+		                   assembly="RentACarRESTGen.Infraestructure"
+		                   namespace="RentACarRESTGen.Infraestructure.EN.RentACarREST">
+		    
+		    
+			
+				<class name="ReservaNH" table="Reserva"> 
+				  	
+						<id name="Id" column="idReserva" type="integer"> 
+							<generator class="hilo"/>
+						</id>
+			
+					
+					<property name="Inicio" type="date"> 
+						<column name="inicio"  not-null="true"/>
+					</property>
+					<property name="Final" type="date"> 
+						<column name="final"  not-null="true"/>
+					</property>
+			
+			
+		  			
+						<many-to-one name="Cliente" class="RentACarRESTGen.Infraestructure.EN.RentACarREST.ClienteNH" >	
+								<column name="FK_DNI_idCliente"/> 
+						</many-to-one>
+											 					
+			
+			
+		  			
+					
+							<many-to-one name="Coche" class="RentACarRESTGen.Infraestructure.EN.RentACarREST.CocheNH" >
+								<column name="FK_numLicencia_idCoche"/> 
+        					</many-to-one>
+					 
+						
+			
+		  			
+					
+							<many-to-one name="LineaFactura" class="RentACarRESTGen.Infraestructure.EN.RentACarREST.LineaFacturaNH" >
+								<column name="FK_numLinea_idLineaFactura"/> 
+        					</many-to-one>
+					 
+						
+			
+			
+					
+					
+					
+					
+					
+					
+		
+		 </class>	
+		  
+		  <query name="ReservaNHReadAllHQL">from ReservaNH</query>
+		</hibernate-mapping>
+	

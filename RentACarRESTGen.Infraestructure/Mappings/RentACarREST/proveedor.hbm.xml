@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+		<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2"
+		                   assembly="RentACarRESTGen.Infraestructure"
+		                   namespace="RentACarRESTGen.Infraestructure.EN.RentACarREST">
+		    
+		    
+			
+				<class name="ProveedorNH" table="Proveedor"> 
+				  	
+						<id name="Id" column="idProveedor" type="integer"> 
+							<generator class="hilo"/>
+						</id>
+			
+					
+			
+			
+			
+		  			
+						<bag name="Coche" table="[proveedor_coche]"  >
+							<key>
+								
+									<column name="FK_idProveedor_idProveedor"/> 
+							</key>
+      						<many-to-many class="RentACarRESTGen.Infraestructure.EN.RentACarREST.CocheNH">
+									<column name="FK_numLicencia_idCoche"/> 
+      						</many-to-many>
+    					</bag>
+					
+					
+		
+		 </class>	
+		  
+		  <query name="ProveedorNHReadAllHQL">from ProveedorNH</query>
+		</hibernate-mapping>
+	

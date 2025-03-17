@@ -7,7 +7,7 @@
 <ion-content class="ion-padding">
   <ion-card *ngIf="cliente">
     <ion-card-header>
-      <ion-card-title>{{ cliente.nombre || 'No disponible' }}</ion-card-title>
+      <h2><ion-icon name="person-circle-outline"></ion-icon>{{ cliente.nombre || 'No disponible' }}</h2>
     </ion-card-header>
     <ion-card-content>
       <p><ion-icon name="id-card"></ion-icon> <strong>DNI:</strong> {{ cliente.dni || 'No disponible' }}</p>
@@ -19,7 +19,7 @@
   <!-- Sección de Facturas -->
   <ion-card>
     <ion-card-header>
-      <ion-card-title>Facturas</ion-card-title>
+      <h3><ion-icon name="receipt-outline"></ion-icon> Facturas</h3>
     </ion-card-header>
     <ion-card-content>
       <p *ngIf="facturas?.length === 0">No hay facturas disponibles.</p>
@@ -41,7 +41,7 @@
   <!-- Sección de Reservas -->
   <ion-card>
     <ion-card-header>
-      <ion-card-title>Reservas</ion-card-title>
+      <h3><ion-icon name="calendar-outline"></ion-icon> Reservas</h3>
     </ion-card-header>
     <ion-card-content>
       <p *ngIf="reservas?.length === 0">No hay reservas disponibles.</p>
@@ -56,6 +56,7 @@
       </ion-list>
     </ion-card-content>
   </ion-card>
+
 </ion-content>
 
 

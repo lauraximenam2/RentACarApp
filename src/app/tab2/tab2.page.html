@@ -1,18 +1,22 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>Detalles de la Factura</ion-title>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs"></ion-back-button>
+    </ion-buttons>
+    <ion-title> Detalles de la Factura</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content *ngIf="factura">
-  <ion-card>
+<ion-content class="ion-padding">
+  <ion-card *ngIf="factura">
     <ion-card-header>
       <ion-card-title>Factura #{{ factura.id }}</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <p><strong>Fecha:</strong> {{ factura.fecha | date }}</p>
-      <p><strong>Total:</strong> {{ factura.dameTotal | currency }}</p>
-      <p><strong>Estado:</strong> 
+      <p><ion-icon name="calendar"></ion-icon> <strong>Fecha:</strong> {{ factura.fecha | date }}</p>
+      <p><ion-icon name="cash"></ion-icon> <strong>Total:</strong> {{ factura.dameTotal | currency }}</p>
+      <p>
+        <strong>Estado:</strong> 
         <ion-badge [color]="factura.esPagada ? 'success' : (factura.esAnulada ? 'danger' : 'warning')">
           {{ factura.esPagada ? 'Pagada' : (factura.esAnulada ? 'Anulada' : 'Pendiente') }}
         </ion-badge>
@@ -20,18 +24,22 @@
     </ion-card-content>
   </ion-card>
 
-  <!-- Sección de Líneas de Factura -->
-  <h3>Detalles de la Factura</h3>
-  <p *ngIf="!factura.lineas || factura.lineas.length === 0">No hay líneas de factura.</p>
-  
-  <ion-list *ngIf="factura?.lineas && factura.lineas.length > 0">
-    <ion-item *ngFor="let linea of factura.lineas" (click)="verDetalleLinea(linea)">
-      <ion-label>
-        <p><strong>Número de Línea:</strong> {{ linea.numLinea }}</p>
-        <p><strong>Precio:</strong> {{ linea.precio | currency }}</p>
-      </ion-label>
-    </ion-item>
-  </ion-list>
-</ion-content>
+  <!-- Líneas de Factura -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Detalles de la Factura</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <p *ngIf="!factura.lineas || factura.lineas.length === 0">No hay líneas de factura.</p>
+      <ion-list *ngIf="factura?.lineas && factura.lineas.length > 0">
+        <ion-item *ngFor="let linea of factura.lineas" (click)="verDetalleLinea(linea)">
+          <ion-label>
+            <h2>Línea #{{ linea.numLinea }}</h2>
+            <p><ion-icon name="pricetag"></ion-icon> <strong>Precio:</strong> {{ linea.precio | currency }}</p>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+</ion-content> 
 
-<p *ngIf="!factura">Cargando factura...</p>

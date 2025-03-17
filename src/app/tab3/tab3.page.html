@@ -1,22 +1,31 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>Detalle de la Reserva</ion-title>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs"></ion-back-button>
+    </ion-buttons>
+    <ion-title> Detalles de la Reserva</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content class="ion-padding">
   <ion-card *ngIf="reserva">
     <ion-card-header>
       <ion-card-title>Reserva ID: {{ reserva.id }}</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <p><strong>Fecha de inicio:</strong> {{ reserva.inicio | date }}</p>
-      <p><strong>Fecha de finalización:</strong> {{ reserva.final | date }}</p>
-      
-      <h3>Coche Reservado</h3>
-      <p><strong>Número de Licencia:</strong> {{ reserva.coches?.numLicencia || 'No disponible' }}</p>
-      <p><strong>Categoría:</strong> {{ reserva.coches?.categoria || 'No disponible' }}</p>
-      <p><strong>Estado:</strong> {{ reserva.coches?.estado || 'No disponible' }}</p>
+      <p><ion-icon name="calendar"></ion-icon> <strong>Fecha de inicio:</strong> {{ reserva.inicio | date }}</p>
+      <p><ion-icon name="calendar"></ion-icon> <strong>Fecha de finalización:</strong> {{ reserva.final | date }}</p>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Coche Reservado</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <p><ion-icon name="car"></ion-icon> <strong>Número de Licencia:</strong> {{ reserva?.coches?.numLicencia || 'No disponible' }}</p>
+      <p><ion-icon name="list"></ion-icon> <strong>Categoría:</strong> {{ reserva?.coches?.categoria ?? 'No disponible' }}</p>
+      <p><ion-icon name="alert"></ion-icon> <strong>Estado:</strong> {{ reserva?.coches?.estado ?? 'No disponible' }}
     </ion-card-content>
   </ion-card>
 </ion-content>
